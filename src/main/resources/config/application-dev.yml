@@ -20,6 +20,11 @@ logging:
     org.hibernate.SQL: DEBUG
     com.mycompany.myapp: DEBUG
 
+management:
+  health:
+    elasticsearch:
+      enabled: false
+
 spring:
   devtools:
     restart:
@@ -43,6 +48,8 @@ spring:
       # disable spring boot built-in h2-console since we start it manually with correct configuration
       enabled: false
   jpa:
+  elasticsearch:
+    uris: http://localhost:9200
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
     contexts: dev, faker

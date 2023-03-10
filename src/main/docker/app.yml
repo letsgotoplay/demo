@@ -10,6 +10,7 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://demo-mysql:3306/demo?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
       - SPRING_LIQUIBASE_URL=jdbc:mysql://demo-mysql:3306/demo?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
       - JHIPSTER_SLEEP=30 # gives time for other services to boot before the application
+      - SPRING_ELASTICSEARCH_URIS=http://demo-elasticsearch:9200
   demo-mysql:
     image: mysql:8.0.30
     # volumes:
@@ -24,3 +25,15 @@ services:
     ports:
       - 127.0.0.1:3306:3306
     command: mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8mb4 --explicit_defaults_for_timestamp
+  demo-elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.4
+    # volumes:
+    #   - ~/volumes/jhipster/demo/elasticsearch/:/usr/share/elasticsearch/data/
+    # If you want to expose these ports outside your dev PC,
+    # remove the "127.0.0.1:" prefix
+    ports:
+      - 127.0.0.1:9200:9200
+      - 127.0.0.1:9300:9300
+    environment:
+      - 'ES_JAVA_OPTS=-Xms256m -Xmx256m'
+      - 'discovery.type=single-node'
